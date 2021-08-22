@@ -77,10 +77,14 @@ static int lkcp_create(lua_State* L){
     uint64_t handle = luaL_ref(L, LUA_REGISTRYINDEX);
     int32_t conv = luaL_checkinteger(L, 1);
 
+    lua_rawgeti(L,LUA_REGISTRYINDEX, LUA_RIDX_MAINTHREAD);
+    lua_State *mL = lua_tothread(L, -1);
+    lua_pop(L, 1);
+
     struct Callback* c = malloc(sizeof(struct Callback));
     memset(c, 0, sizeof(struct Callback));
     c -> handle = handle;
-    c -> L = L;
+    c -> L = mL;
 
     ikcpcb* kcp = ikcp_create(conv, (void*)c);
     if (kcp == NULL) {
