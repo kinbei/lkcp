@@ -1,4 +1,4 @@
-.PHONY: all lua53 build_dir clean
+.PHONY: all lua build_dir clean
 
 TOP=$(PWD)
 BUILD_DIR=$(TOP)/build
@@ -20,9 +20,9 @@ build_dir:
 	-mkdir $(INCLUDE_DIR)
 	-mkdir $(LUA_EX_LIB)
 
-all: lua53
+all: lua
 
-lua53:
+lua:
 	cd $(EXTERNAL)/lua && $(MAKE) clean && $(MAKE) MYCFLAGS="-O2 -fPIC -g" linux
 	install -p -m 0755 $(EXTERNAL)/lua/src/lua $(BIN_DIR)/lua
 	install -p -m 0755 $(EXTERNAL)/lua/src/luac $(BIN_DIR)/luac
@@ -41,6 +41,10 @@ $(LUA_EX_LIB)/lkcp.so: $(SRC)/lkcp.c  $(EXTERNAL)/kcp/ikcp.c
 all:
 	-rm -rf $(TOP)/*.a $(TOP)/*.o
 	@echo 'make finish!!!!!!!!!!!!!!!!!'
+
+
+test:
+	$(EXTERNAL)/lua/src/lua src/testkcp.lua
 
 clean:
 	-rm -rf *.o *.a $(BIN_DIR) $(BUILD_DIR) $(INCLUDE_DIR) $(LUA_EX_LIB)
