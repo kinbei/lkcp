@@ -114,6 +114,9 @@ static int lkcp_recv(lua_State* L){
 
     int32_t hr = ikcp_recv(kcp, buf, RECV_BUFFER_LEN);
     if (hr <= 0) {
+		// -1 no data at all (EAGAIN)
+		// -2 the data is not complete, subsequent data required as a complete package (EAGAIN)
+		// -3 length of buffer is insufficient
         lua_pushinteger(L, hr);
         return 1;
     }
