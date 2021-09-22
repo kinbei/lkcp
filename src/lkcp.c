@@ -36,9 +36,6 @@
 #define check_kcp(L, idx)\
 	*(ikcpcb**)luaL_checkudata(L, idx, "kcp_meta")
 
-#define check_buf(L, idx)\
-	(char*)luaL_checkudata(L, idx, "recv_buffer")
-
 struct Callback {
     uint64_t handle;
     lua_State* L;
