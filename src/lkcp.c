@@ -122,8 +122,10 @@ static int lkcp_recv(lua_State* L){
         return 1;
     }
 
-    lua_pushinteger(L, hr);
 	luaL_pushresultsize(&lbuf, hr);
+	lua_pushinteger(L, hr);
+
+	lua_rotate(L, -1, 2); // swap size & data
     return 2;
 }
 
